@@ -39,7 +39,12 @@ class Handler:
         return storyscript.__version__
 
 
+def app_error(e):
+    return jsonify({"success": False, "message": str(e)}), 500
+
+
 if __name__ == '__main__':
     handler = Handler()
     app = handler.app
-    handler.app.run(host='0.0.0.0', port=8000)
+    app.register_error_handler(Exception, app_error)
+    app.run(host='0.0.0.0', port=8000)
