@@ -46,7 +46,7 @@ class Handler:
 
 
 def app_error(e):
-    return jsonify({"success": False, "message": str(e)}), 500
+    return jsonify({"success": False, "message": str(e)}), 400
 
 
 if __name__ == '__main__':
