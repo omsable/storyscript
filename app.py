@@ -14,21 +14,27 @@ class Handler:
         files = request.json
         # TODO: use https://github.com/storyscript/storyscript/pull/414 here
         filename, value = files.popitem()
-        return jsonify(storyscript.loads(value))
+        result = storyscript.loads(value)
+        result["success"] = True
+        return jsonify(result)
 
     @app.route('/parse', methods=['POST'])
     def parse():
         files = request.json
         # TODO: use https://github.com/storyscript/storyscript/pull/414 here
         filename, value = files.popitem()
-        return jsonify(storyscript.loads(value))
+        result = storyscript.loads(value)
+        result["success"] = True
+        return jsonify(result)
 
     @app.route('/compile', methods=['POST'])
     def compile():
         files = request.json
         # TODO: use https://github.com/storyscript/storyscript/pull/414 here
         filename, value = files.popitem()
-        return jsonify(storyscript.loads(value))
+        result = storyscript.loads(value)
+        result["success"] = True
+        return jsonify(result)
 
     @app.route('/grammar', methods=['GET'])
     def grammar():
