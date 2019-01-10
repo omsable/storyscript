@@ -8,4 +8,5 @@ jobs:
     steps:
       - checkout
       - run: npm i omg
+      - setup_remote_docker
       - run: npx omg exec compile -a files='{"my.story":"x = 2"}'
