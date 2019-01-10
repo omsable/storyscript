@@ -2,8 +2,22 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, jsonify, request
+import json
 
 import storyscript
+from storyscript.Bundle import Bundle
+from storyscript.Story import Story
+from storyscript.parser import Tree
+
+
+def lark_tree(tree):
+    resp = {}
+    for item in tree.children:
+        if isinstance(item, Tree):
+            resp[item.data] = lark_tree(item)
+        else:
+            resp["value"] = item
+    return resp
 
 
 class Handler:
@@ -11,24 +25,30 @@ class Handler:
 
     @app.route('/lex', methods=['POST'])
     def lex():
-        files = request.json
-        # TODO: use https://github.com/storyscript/storyscript/pull/414 here
-        filename, value = files.popitem()
-        return storyscript.loads(value)
+        files = request.json['files']
+        resp = {}
+        for k, v in files.items():
+            result = []
+            tokens = Story(v).lex()
+            for n, token in enumerate(tokens):
+                result.append((n, token.type, token.value))
+            resp[k] = result
+        return jsonify(resp)
 
     @app.route('/parse', methods=['POST'])
     def parse():
-        files = request.json
-        # TODO: use https://github.com/storyscript/storyscript/pull/414 here
-        filename, value = files.popitem()
-        return storyscript.loads(value)
+        files = request.json['files']
+        bundle = Bundle(story_files=files)
+        bundle.parse(bundle.find_stories(), ebnf=None)
+        resp = {}
+        for k, v in bundle.stories.items():
+            resp[k] = lark_tree(v)
+        return jsonify(resp)
 
     @app.route('/compile', methods=['POST'])
     def compile():
-        files = request.json
-        # TODO: use https://github.com/storyscript/storyscript/pull/414 here
-        filename, value = files.popitem()
-        return storyscript.loads(value)
+        files = request.json['files']
+        return jsonify(storyscript.load_map(files))
 
     @app.route('/grammar', methods=['GET'])
     def grammar():

@@ -14,8 +14,9 @@ actions:
         required: true
         in: requestBody
     output:
-      type: string
-      contentType: text/plain
+      properties:
+        stories:
+          type: object
   parse:
     http:
       path: /parse
@@ -27,8 +28,9 @@ actions:
         required: true
         in: requestBody
     output:
-      type: string
-      contentType: text/plain
+      properties:
+        stories:
+          type: object
   compile:
     http:
       path: /compile
