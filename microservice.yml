@@ -1,4 +1,11 @@
 omg: 1
+info:
+  version: 1.0.0
+  title: Storyscript
+  description: This is the Storyscript compiler as as service
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
 lifecycle:
   startup:
     command: ["python", "/app/app.py"]
