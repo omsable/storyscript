@@ -1,0 +1,76 @@
+omg: 1
+info:
+  version: 1.0.0
+  title: Storyscript
+  description: This is the Storyscript compiler as as service
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+lifecycle:
+  startup:
+    command: ["python", "/app/app.py"]
+actions:
+  lex:
+    http:
+      path: /lex
+      method: post
+      port: 8000
+    arguments:
+      files:
+        type: map
+        required: true
+        in: requestBody
+    output:
+      properties:
+        stories:
+          type: object
+  parse:
+    http:
+      path: /parse
+      method: post
+      port: 8000
+    arguments:
+      files:
+        type: map
+        required: true
+        in: requestBody
+    output:
+      properties:
+        stories:
+          type: object
+  compile:
+    http:
+      path: /compile
+      method: post
+      port: 8000
+    arguments:
+      files:
+        type: map
+        required: true
+        in: requestBody
+    output:
+      type: object
+      contentType: application/json
+      properties:
+        stories:
+          type: object
+        services:
+          type: list
+        entrypoint:
+          type: list
+  grammar:
+    http:
+      path: /grammar
+      method: get
+      port: 8000
+    output:
+      type: string
+      contentType: text/plain
+  version:
+    http:
+      path: /version
+      method: get
+      port: 8000
+    output:
+      type: string
+      contentType: text/plain

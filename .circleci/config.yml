@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.14
+    working_directory: ~/omg
+
+    steps:
+      - checkout
+      - run: npm i omg
+      - setup_remote_docker
+      - run: npx omg validate
+      - run: npx omg build
+      - run: npx omg run compile -a files='{"my.story":"x = 2"}'
