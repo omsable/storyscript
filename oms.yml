@@ -1,4 +1,4 @@
-omg: 1
+oms: 1
 info:
   version: 1.0.0
   title: Storyscript
@@ -8,7 +8,7 @@ info:
     url: https://opensource.org/licenses/MIT
 lifecycle:
   startup:
-    command: ["python", "/app/app.py"]
+    command: ['python', '/app/app.py']
 actions:
   lex:
     http:
@@ -21,9 +21,10 @@ actions:
         required: true
         in: requestBody
     output:
+      type: object
       properties:
         stories:
-          type: object
+          type: map
   parse:
     http:
       path: /parse
@@ -35,9 +36,10 @@ actions:
         required: true
         in: requestBody
     output:
+      type: object
       properties:
         stories:
-          type: object
+          type: map
   compile:
     http:
       path: /compile
@@ -53,7 +55,7 @@ actions:
       contentType: application/json
       properties:
         stories:
-          type: object
+          type: map
         services:
           type: list
         entrypoint:
@@ -65,7 +67,6 @@ actions:
       port: 8000
     output:
       type: string
-      contentType: text/plain
   version:
     http:
       path: /version
@@ -73,4 +74,3 @@ actions:
       port: 8000
     output:
       type: string
-      contentType: text/plain
